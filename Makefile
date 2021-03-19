@@ -27,6 +27,7 @@ cp_wasm:
 	mv itunes.wasm $(BUILD_DIR)/assets/
 
 serve:
+	$(BROWSER) 'http://localhost:$(SERVE_PORT)'
 	go run cmd/server/main.go -port $(SERVE_PORT)
 
 clean:
