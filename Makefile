@@ -1,12 +1,12 @@
 ifeq ($(OS),Windows_NT)
     BROWSER = start
 else
-	UNAME := $(shell uname)
-	ifeq ($(UNAME), Linux)
-    	BROWSER = xdg-open
-	else
-		BROWSER = open
-	endif
+    UNAME := $(shell uname)
+    ifeq ($(UNAME), Linux)
+        BROWSER = xdg-open
+    else
+        BROWSER = open
+    endif
 endif
 
 BUILD_DIR 	= $(shell pwd)
@@ -20,17 +20,17 @@ build: cp_wasm itunes.wasm
 all: build serve
 
 cp_wasm:
-	test -f assets/wasm_exec.js || cp $(GO_ROOT)/misc/wasm/wasm_exec.js assets/
+    test -f assets/wasm_exec.js || cp $(GO_ROOT)/misc/wasm/wasm_exec.js assets/
 
 %.wasm: cmd/wasm/%.go
-	GOOS=js GOARCH=wasm go generate
-	GOOS=js GOARCH=wasm go build -o "$@" "$<"
-	mv itunes.wasm $(BUILD_DIR)/assets/
+    GOOS=js GOARCH=wasm go generate
+    GOOS=js GOARCH=wasm go build -o "$@" "$<"
+    mv itunes.wasm $(BUILD_DIR)/assets/
 
 serve:
-	cd $(BUILD_DIR)/assets
-	$(BROWSER) 'http://localhost:$(PYTHON_PORT)'
-	$(PYTHON_EXEC) -m http.server $(PYTHON_PORT)
+    cd $(BUILD_DIR)/assets
+    $(BROWSER) 'http://localhost:$(PYTHON_PORT)'
+    $(PYTHON_EXEC) -m http.server $(PYTHON_PORT)
 
 clean:
-	rm -f assets/*.wasm
+    rm -f assets/*.wasm
