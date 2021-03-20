@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"path/filepath"
+
+	"github.com/petarov/itunes-web-search/cmd/common"
 )
 
 var (
@@ -20,7 +22,7 @@ func init() {
 }
 
 func main() {
-	fmt.Println("iTunes Web Search - v1.0")
+	fmt.Println("iTunes Web Search - v", common.APP_VERSION)
 	flag.Parse()
 
 	fmt.Printf("Listening on %s:%d ...\n", ListenAddress, ListenPort)
