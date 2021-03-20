@@ -5,24 +5,19 @@
 </head>
 
 <body>
-    <button id="run">Run</button>
-    <button id="stop" disabled>Stop</button>
+    <button id="doit">Do it</button>
+    <br>
+    <div id="json"></div>
 
     <script src="wasm_exec.js"></script>
     <script type="text/javascript">
         (async () => {
-            const button = document.getElementById('run');
-            button.disabled = true;
-
             const go = new Go();
-            let { module, instance } = await WebAssembly.instantiateStreaming(fetch("itunes.wasm"), go.importObject);
-            button.disabled = false;
-
-            button.onclick = async () => {
-                button.disabled = true;
-                await go.run(instance);
-                instance = await WebAssembly.instantiate(module, go.importObject);
-                button.disabled = false;
+            WebAssembly.instantiateStreaming(fetch("itunes.wasm"), go.importObject).then((result) => {
+                go.run(result.instance);
+            });
+            document.getElementById("doit").onclick = async () => {
+                example();
             };
         })();
     </script>
