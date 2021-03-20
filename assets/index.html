@@ -5,6 +5,7 @@
 </head>
 
 <body>
+    <input id="term" type="text" maxlength="100">
     <button id="doit">Do it</button>
     <br>
     <div id="json"></div>
@@ -16,8 +17,15 @@
             WebAssembly.instantiateStreaming(fetch("itunes.wasm"), go.importObject).then((result) => {
                 go.run(result.instance);
             });
+
             document.getElementById("doit").onclick = async () => {
-                example();
+                search(document.getElementById("term").value, function (err, json) {
+                    var sanitized = json.substring(6, json.length - 4);
+                    //console.log('sanitized=', sanitized);
+
+                    var parsed = JSON.parse(sanitized);
+                    document.getElementById("json").innerHTML = JSON.stringify(parsed, null, 10);
+                });
             };
         })();
     </script>
