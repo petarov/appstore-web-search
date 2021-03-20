@@ -11,7 +11,7 @@ endif
 
 BUILD_DIR   = $(shell pwd)
 GO_ROOT     = $(shell go env GOROOT)
-SERVE_PORT  = 5360
+SERVE_PORT  = 80
 
 .PHONY: all clean serve
 
