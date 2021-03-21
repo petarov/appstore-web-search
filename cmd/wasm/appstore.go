@@ -5,8 +5,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"syscall/js"
-
-	"github.com/petarov/appstore-web-search/cmd/common"
 )
 
 func search(term string, country string, lang string, media string, entity string, client *http.Client) (json string, err error) {
@@ -27,7 +25,7 @@ func search(term string, country string, lang string, media string, entity strin
 	if err != nil {
 		return "", fmt.Errorf("Error creating GET request: %v", err)
 	}
-	req.Header.Set("User-Agent", fmt.Sprintf("%s-v%s", common.APP_USER_AGENT, common.APP_VERSION))
+	// req.Header.Set("User-Agent", fmt.Sprintf("%s-v%s", common.APP_USER_AGENT, common.APP_VERSION))
 
 	// reqOut, err := httputil.DumpRequest(req, false)
 	// fmt.Println(string(reqOut))
