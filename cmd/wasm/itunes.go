@@ -50,10 +50,12 @@ func main() {
 	search := func() js.Func {
 		return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 			go func() {
-				cb := args[1]
-				client := &http.Client{Timeout: 5 * time.Second}
+				term := args[0].String()
+				media := args[1].String()
+				cb := args[2]
 
-				_, json, err := search(args[0].String(), "de", "de_DE", "all", "", client)
+				_, json, err := search(term, "de", "de_DE", media, "",
+					&http.Client{Timeout: 4 * time.Second})
 				if err != nil {
 					fmt.Printf("Error in search: %v", err)
 					return

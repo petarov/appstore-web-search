@@ -54,6 +54,34 @@
                                 <input class="input is-info" type="text" placeholder="Search" id="term">
                             </p>
                         </div>
+                        <div class="field is-grouped">
+                            <div class="control is-expanded">
+                                <label class="radio">
+                                    <input type="radio" name="media" value="all"> All
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="media" value="software" checked> Software
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="media" value="audiobook"> Audio books
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="media" value="ebook"> E-Books 
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="media" value="audiobook"> Audiobook 
+                                </label>  
+                                <label class="radio">
+                                    <input type="radio" name="media" value="music"> Music 
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="media" value="podcast"> Podcast 
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="media" value="movie"> Movie 
+                                </label>
+                            </div>
+                        </div>
                         <div class="field">
                             <p class="control">
                                 <button class="button is-link" id="search">Search</button>
@@ -163,7 +191,10 @@
             const RESULTS = document.getElementById('results');
             
             document.getElementById("search").onclick = async () => {
-                search(document.getElementById("term").value, function (err, json) {
+                const term = document.getElementById("term").value;
+                const media = document.querySelector('input[name="media"]:checked').value;
+
+                search(term, media, function (err, json) {
                     var sanitized = json.substring(6, json.length - 4);
                     //console.log('sanitized=', sanitized);
                     
@@ -194,7 +225,7 @@
             tpl = tpl.replace(/__TYPE__/g, app.kind || app.wrapperType);
             tpl = tpl.replace(/__ARTIST__/g, app.artistName);
             if (app.fileSizeBytes) {
-                tpl = tpl.replace(/__SIZE__/g, app.fileSizeBytes / 1024 / 1024);
+                tpl = tpl.replace(/__SIZE__/g, parseFloat(app.fileSizeBytes / 1024 / 1024).toFixed(2));
             } else {
                 tpl = tpl.replace(/__SIZE_HIDDEN__/g, 'is-hidden');
             }
