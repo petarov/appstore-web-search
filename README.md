@@ -1,6 +1,6 @@
-# iTunes Web Search
+# App Store Web Search
 
-// TODO
+A web app that can query the Apple App Store in your browser. A blend of Go's powerful WebAssembly caps and client side javascript.
 
 # Installation
 

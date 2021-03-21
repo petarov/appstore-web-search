@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"path/filepath"
 
+	"github.com/NYTimes/gziphandler"
 	"github.com/petarov/itunes-web-search/cmd/common"
 )
 
@@ -31,7 +32,7 @@ func main() {
 	fmt.Printf("Serving webapp from: %s ...\n", WebAppPath)
 
 	err := http.ListenAndServe(fmt.Sprintf("%s:%d", ListenAddress, ListenPort),
-		http.FileServer(http.Dir(WebAppPath)))
+		gziphandler.GzipHandler(http.FileServer(http.Dir(WebAppPath))))
 	if err != nil {
 		fmt.Printf("Failed to start server: %v", err)
 		return

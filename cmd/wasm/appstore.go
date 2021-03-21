@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"syscall/js"
-	"time"
 
 	"github.com/petarov/itunes-web-search/cmd/common"
 )
@@ -63,7 +62,7 @@ func main() {
 				cb := args[3]
 
 				json, err := search(term, country, "", media, "",
-					&http.Client{Timeout: 4 * time.Second})
+					&http.Client{Timeout: 4 * 1000000000})
 				if err != nil {
 					cb.Invoke(err.Error(), json)
 					return
