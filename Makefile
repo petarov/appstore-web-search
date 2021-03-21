@@ -30,7 +30,7 @@ endif
 
 serve: cp_wasm appstore.wasm open
 build: cp_wasm appstore.wasm server.cmd
-all: clean build dist
+all: clean build
 
 cp_wasm:
 	test -f webapp/wasm_exec.js || cp $(GO_ROOT)/misc/wasm/wasm_exec.js webapp/
@@ -47,14 +47,14 @@ open:
 	$(BROWSER) 'http://$(SERVE_ADDR):$(SERVE_PORT)'
 	go run cmd/server/main.go -port $(SERVE_PORT) -address $(SERVE_ADDR)
 
-dist:
-	test -d dist || mkdir -p dist/webapp
-	cp webapp/* dist/webapp
-	mv asws_server_* dist/
+# dist:
+# 	test -d dist || mkdir -p dist/webapp
+# 	cp webapp/* dist/webapp
+# 	mv asws_server_* dist/
 
 clean:
 	rm -f webapp/appstore.wasm
 	rm -f webapp/wasm_exec.js
 	rm -f asws_server_$(ARCH)_amd64
 	#test -d dist && rm -f dist/webapp/* && rm -f dist/asws_server_* && rmdir -p dist/webapp
-	rm -rf dist
+	#rm -rf dist
