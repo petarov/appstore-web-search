@@ -1,13 +1,23 @@
 (async () => {
+    document.querySelector('.controls').style.display = 'none';
+
     const go = new Go();
     if (WebAssembly.instantiateStreaming) {
         WebAssembly.instantiateStreaming(fetch('appstore.wasm'), go.importObject)
-        .then(result => go.run(result.instance));
+        .then(result => {
+            document.querySelector('.loading').style.display = 'none';
+            document.querySelector('.controls').style.display = 'block';
+            go.run(result.instance);
+        });
     } else {
         // Safari
         fetch('appstore.wasm').then(response => response.arrayBuffer())
         .then(bytes => WebAssembly.instantiate(bytes, go.importObject))
-        .then(result => go.run(result.instance));
+        .then(result => {
+            document.querySelector('.loading').style.display = 'none';
+            document.querySelector('.controls').style.display = 'block';
+            go.run(result.instance);
+        });
     }
 
     const APP_TEMPLATE = document.getElementById('app-item-template').innerHTML;
@@ -48,13 +58,19 @@
                 if (navigator.share) {
                     const els = document.querySelectorAll('.share-app');
                     for (const el of els) {
-                        el.addEventListener('click', (event) => async() => {
-                            const data = {
-                                title: event.target.dataset.title,
-                                text: 'Check out this app!',
-                                url: event.target.dataset.link
-                            }
-                            await navigator.share(shardataeData);
+                        el.addEventListener('click', (event) => {
+                            const title = event.target.dataset.title;
+                            const link = event.target.dataset.link;
+                            console.log(event.target);
+                            console.log(event.target.dataset);
+                            (async () => {
+                                const data = {
+                                    title: title,
+                                    text: 'Checkout ' + title,
+                                    url: link
+                                };
+                                await navigator.share(data);
+                            })();
                         });
                     }
                 }
