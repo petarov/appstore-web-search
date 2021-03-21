@@ -2,10 +2,10 @@ ifeq ($(OS),Windows_NT)
 	BROWSER = start
 else
 	UNAME := $(shell uname)
-	ifeq ($(UNAME), Linux)
-		BROWSER = xdg-open
-	else
+	ifeq ($(UNAME), Darwin)
 		BROWSER = open
+	else
+		BROWSER = xdg-open
 	endif
 endif
 
