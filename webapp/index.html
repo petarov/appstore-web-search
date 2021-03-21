@@ -41,7 +41,7 @@
 <body>
     <section class="hero is-info is-fullheight">
         <div class="hero-head">
-            <p class="title is-4 is-spaced has-text-centered">App Store Web Search</p>
+            <p class="title is-3 is-spaced has-text-centered">App Store Web Search</p>
         </div>
         
         <div class="hero-body">
@@ -107,7 +107,7 @@
                     
                     <div class="box" id="results">
                         <!-- list -->
-                                
+                        No results found
                     </div>
                 </div>
 
@@ -116,7 +116,7 @@
     </section>
 
     <script id="app-item-template" type="text/x-custom-template">
-        <article class="media">
+        <article class="media" id="app-__TRACK_ID__">
             <figure class="media-left">
                 <a href="__LINK__" target="_blank">
                     <p class="image app-image is-100x100 is-hidden-mobile">
@@ -175,7 +175,7 @@
                 </nav>
             </div>
             <div class="media-right">
-                <button class="delete"></button>
+                <button class="delete delete-app" data-id="__TRACK_ID__"></button>
             </div>
         </article>
     </script>
@@ -183,31 +183,42 @@
     <script type="text/javascript">
         (async () => {
             const go = new Go();
-            WebAssembly.instantiateStreaming(fetch("itunes.wasm"), go.importObject).then((result) => {
+            WebAssembly.instantiateStreaming(fetch('itunes.wasm'), go.importObject).then((result) => {
                 go.run(result.instance);
             });
 
             const APP_TEMPLATE = document.getElementById('app-item-template').innerHTML;
             const RESULTS = document.getElementById('results');
             
-            document.getElementById("search").onclick = async () => {
-                const term = document.getElementById("term").value;
+            document.getElementById('search').onclick = async () => {
+                RESULTS.innerHTML = 'Searching ...Please wait';
+
+                const term = document.getElementById('term').value;
                 const media = document.querySelector('input[name="media"]:checked').value;
 
                 search(term, media, function (err, json) {
-                    var sanitized = json.substring(6, json.length - 4);
+                    const sanitized = json.substring(6, json.length - 4);
                     //console.log('sanitized=', sanitized);
-                    
-                    var parsed = JSON.parse(sanitized);
-                    console.log(parsed);
-
-                    RESULTS.innerHTML = '';
-                    for (const app of parsed.results) {
-                        console.log(app)
-                        RESULTS.innerHTML += getAppHtml(APP_TEMPLATE, app);
+                    const parsed = JSON.parse(sanitized);
+                    //console.log(parsed);
+                    if (parsed.results && parsed.results.length > 0) {
+                        RESULTS.innerHTML = '';
+                        for (const app of parsed.results) {
+                            RESULTS.innerHTML += getAppHtml(APP_TEMPLATE, app);
+                        }
+                        const els = document.querySelectorAll('.delete-app');
+                        for (const el of els) {
+                            el.addEventListener('click', 
+                                (event) => document.getElementById('app-'+event.target.dataset.id).remove()
+                            );
+                        }
+                    } else {
+                        RESULTS.innerHTML = 'No results found';
                     }
                 });
             };
+
+            document.getElementById('clear').onclick = () => RESULTS.innerHTML = 'No results found';
         })();
 
         function getAppHtml(template, app) {
