@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"net/http/httputil"
 	"syscall/js"
 	"time"
 
@@ -24,8 +23,8 @@ func search(term string, country string, lang string, media string, entity strin
 	}
 	req.Header.Set("User-Agent", fmt.Sprintf("%s-v%s", common.APP_USER_AGENT, common.APP_VERSION))
 
-	reqOut, err := httputil.DumpRequest(req, false)
-	fmt.Println(string(reqOut))
+	// reqOut, err := httputil.DumpRequest(req, false)
+	// fmt.Println(string(reqOut))
 
 	resp, err := client.Do(req)
 	if err != nil {
@@ -42,10 +41,7 @@ func search(term string, country string, lang string, media string, entity strin
 }
 
 func main() {
-	fmt.Println("*** Welcome to iTunes Web Search ***")
-
-	// fmt.Printf("STATUS: %d\n", status)
-	// fmt.Printf("JSON: %s\n", json)
+	fmt.Println("*** Welcome to App Store Web Search ***")
 
 	search := func() js.Func {
 		return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
@@ -62,7 +58,7 @@ func main() {
 				}
 				cb.Invoke(js.Null(), json)
 			}()
-			return ""
+			return nil
 		})
 	}
 	js.Global().Set("search", search())

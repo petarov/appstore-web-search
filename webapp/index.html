@@ -130,9 +130,15 @@
             <div class="media-content">
                 <div class="content">
                     <p>
-                        <span class="tag is-dark">__TRACK_ID__</span> <span class="tag is-light __BUNDLE_ID__HIDDEN__">__BUNDLE_ID__</span> <strong>__TITLE__</strong> 
+                        <strong>__TITLE__</strong> 
                         <br>
                         <div class="field is-grouped is-grouped-multiline">
+                            <div class="control">
+                                <div class="tags has-addons">
+                                    <span class="tag">ID</span>
+                                    <span class="tag is-dark">__TRACK_ID__</span>
+                                </div>
+                            </div>
                             <div class="control">
                                 <div class="tags has-addons">
                                     <span class="tag">type</span>
@@ -163,13 +169,19 @@
                                     <span class="tag __PRICE_STYLE__">__PRICE__</span>
                                 </div>
                             </div>
+                            <div class="control __BUNDLE_ID__HIDDEN__">
+                                <div class="tags has-addons">
+                                    <span class="tag">bundle id</span>
+                                    <span class="tag is-warning is-light">__BUNDLE_ID__</span>
+                                </div>
+                            </div>
                         </div>
                      </p>
                 </div>
                 <nav class="level">
                     <div class="level-left">
-                        <a class="level-item">
-                            <span class="icon is-small"><i class="fas fa-reply"></i></span>
+                        <a class="level-item share-app __SHARE_HIDDEN__" data-title="__TITLE__" data-link="__LINK__">
+                            <span class="icon is-small"><i class="fas fa-share"></i></span>
                         </a>
                     </div>
                 </nav>
@@ -211,6 +223,19 @@
                             el.addEventListener('click', 
                                 (event) => document.getElementById('app-'+event.target.dataset.id).remove()
                             );
+                        }
+                        if (navigator.share) {
+                            const els = document.querySelectorAll('.share-app');
+                            for (const el of els) {
+                                el.addEventListener('click', (event) => async() => {
+                                    const data = {
+                                        title: event.target.dataset.title,
+                                        text: 'Check out this app!',
+                                        url: event.target.dataset.link
+                                    }
+                                    await navigator.share(shardataeData);
+                                });
+                            }
                         }
                     } else {
                         RESULTS.innerHTML = 'No results found';
@@ -255,6 +280,12 @@
             } else {
                 tpl = tpl.replace(/__PRICE_STYLE__/g, 'is-success');
                 tpl = tpl.replace(/__PRICE__/g, app.formattedPrice || 'free');
+            }
+
+            if (navigator.share) {
+                tpl = tpl.replace(/__SHARE_HIDDEN__/g, '');
+            } else {
+                tpl = tpl.replace(/__SHARE_HIDDEN__/g, 'is-hidden');
             }
             return tpl;
         }
