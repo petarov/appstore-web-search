@@ -221,6 +221,15 @@
                 const media = document.querySelector('input[name="media"]:checked').value;
 
                 search(term, country, media, function (err, json) {
+                    if (err != null) {
+                        RESULTS.innerHTML = err;
+                        if (json != null) {
+                            RESULTS.innerHTML += "<br>";
+                            RESULTS.innerHTML += JSON.parse(json).errorMessage;
+                        }
+                        return;
+                    }
+
                     const sanitized = json.substring(6, json.length - 4);
                     //console.log('sanitized=', sanitized);
                     const parsed = JSON.parse(sanitized);
