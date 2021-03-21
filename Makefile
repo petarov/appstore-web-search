@@ -20,6 +20,11 @@ ifeq ($(addr),)
 else
 	SERVE_ADDR = $(addr)
 endif
+ifeq ($(arch),)
+	ARCH = $(OS)
+else
+	ARCH = $(arch)
+endif
 
 .PHONY: all
 
@@ -36,7 +41,7 @@ cp_wasm:
 	mv appstore.wasm $(PROJECT_DIR)/webapp/
 
 %.cmd: cmd/%/main.go
-	GOOS=$(OS) GOARCH=amd64 go build -o asws_server_$(OS)_amd64 "$<"
+	GOOS=$(ARCH) GOARCH=amd64 go build -o asws_server_$(ARCH)_amd64 "$<"
 
 open:
 	$(BROWSER) 'http://$(SERVE_ADDR):$(SERVE_PORT)'
@@ -48,6 +53,8 @@ dist:
 	mv asws_server_* dist/
 
 clean:
-	rm -f webapp/*.wasm
-	rm -f asws_server_*
-	test -d dist && rm -f dist/webapp/* && rm -f dist/asws_server_* && rmdir -p dist/webapp
+	rm -f webapp/appstore.wasm
+	rm -f webapp/wasm_exec.js
+	rm -f asws_server_$(ARCH)_amd64
+	#test -d dist && rm -f dist/webapp/* && rm -f dist/asws_server_* && rmdir -p dist/webapp
+	rm -rf dist
