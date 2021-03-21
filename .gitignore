@@ -15,7 +15,7 @@
 # vendor/
 
 # mine
-asws_server_*
+./asws_server_*
 webapp/*.wasm
 webapp/wasm_exec.js 
 dist/
