@@ -8,11 +8,15 @@
 
 # Build
 
-Run `make build` to produce the wasm binary in the `assets` folder.
+`Go` is required. See [installation](https://golang.org/doc/install).
 
-Run `make serve` to run the local test web setup.
+Run `make build` to produce the wasm binary in the `webapp` folder.
 
-Run `make clean` to clean build artifacts.
+Run `make serve` to run the server part and open the app in your browser.
+
+Run `make clean` to clean build artifacts from `webapp`.
+
+Run `make all` for all of the above.
 
 # License
 
