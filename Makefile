@@ -15,7 +15,7 @@ SERVE_PORT  = 5360
 
 .PHONY: all clean serve
 
-build: cp_wasm itunes.wasm
+build: cp_wasm appstore.wasm
 all: build serve
 
 cp_wasm:
@@ -24,7 +24,7 @@ cp_wasm:
 %.wasm: cmd/wasm/%.go
 	GOOS=js GOARCH=wasm go generate
 	GOOS=js GOARCH=wasm go build -o "$@" "$<"
-	mv itunes.wasm $(BUILD_DIR)/webapp/
+	mv appstore.wasm $(BUILD_DIR)/webapp/
 
 serve:
 	$(BROWSER) 'http://localhost:$(SERVE_PORT)'
