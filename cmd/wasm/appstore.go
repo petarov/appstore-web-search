@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"syscall/js"
 
-	"github.com/petarov/itunes-web-search/cmd/common"
+	"github.com/petarov/appstore-web-search/cmd/common"
 )
 
 func search(term string, country string, lang string, media string, entity string, client *http.Client) (json string, err error) {

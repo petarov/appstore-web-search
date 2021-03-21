@@ -1,4 +1,4 @@
-module github.com/petarov/itunes-web-search
+module github.com/petarov/appstore-web-search
 
 go 1.16
 

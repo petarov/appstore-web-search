@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 
 	"github.com/NYTimes/gziphandler"
-	"github.com/petarov/itunes-web-search/cmd/common"
+	"github.com/petarov/appstore-web-search/cmd/common"
 )
 
 var (
