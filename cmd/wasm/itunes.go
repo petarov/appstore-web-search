@@ -12,8 +12,15 @@ import (
 
 func search(term string, country string, lang string, media string, entity string, client *http.Client) (status int, json string, err error) {
 	query := fmt.Sprintf(
-		"https://itunes.apple.com/search?media=%s&entity=%s&term=%s&country=%s&lang=%s&limit=%d&callback=_cb",
-		media, entity, term, country, lang, 10)
+		"https://itunes.apple.com/search?media=%s&term=%s&country=%s&limit=%d&callback=_cb",
+		media, term, country, 10)
+
+	if lang != "" {
+		query = fmt.Sprintf("%s&lang=%s", query, lang)
+	}
+	if entity != "" {
+		query = fmt.Sprintf("%s&entity=%s", query, entity)
+	}
 
 	fmt.Printf("Search: %s\n", query)
 
@@ -47,10 +54,11 @@ func main() {
 		return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 			go func() {
 				term := args[0].String()
-				media := args[1].String()
-				cb := args[2]
+				country := args[1].String()
+				media := args[2].String()
+				cb := args[3]
 
-				_, json, err := search(term, "de", "de_DE", media, "",
+				_, json, err := search(term, country, "", media, "",
 					&http.Client{Timeout: 4 * time.Second})
 				if err != nil {
 					fmt.Printf("Error in search: %v", err)

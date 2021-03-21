@@ -49,7 +49,7 @@
 
                 <div class="is-offset-2 column is-8">
                     <div class="box">
-                        <div class="field is-grouped">
+                        <div class="field">
                             <p class="control is-expanded">
                                 <input class="input is-info" type="text" placeholder="Search" id="term">
                             </p>
@@ -80,6 +80,11 @@
                                 <label class="radio">
                                     <input type="radio" name="media" value="movie"> Movie 
                                 </label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <input class="column is-4 input is-info" type="text" placeholder="App Store Country" id="country">
                             </div>
                         </div>
                         <div class="field">
@@ -212,9 +217,10 @@
                 RESULTS.innerHTML = 'Searching ...Please wait';
 
                 const term = document.getElementById('term').value;
+                const country = document.getElementById('country').value;
                 const media = document.querySelector('input[name="media"]:checked').value;
 
-                search(term, media, function (err, json) {
+                search(term, country, media, function (err, json) {
                     const sanitized = json.substring(6, json.length - 4);
                     //console.log('sanitized=', sanitized);
                     const parsed = JSON.parse(sanitized);
@@ -250,6 +256,10 @@
             };
 
             document.getElementById('clear').onclick = () => RESULTS.innerHTML = 'No results found';
+
+            let country = navigator.language.substr(0,2).toLowerCase();
+            country = country == 'en' ? 'US' : country;
+            document.getElementById('country').value = country;
         })();
 
         function getAppHtml(template, app) {
