@@ -2,7 +2,7 @@
 
 A web app that can query the Apple App Store in your browser. A blend of Go's powerful WebAssembly caps and client side javascript.
 
-![demo shot](demo/shot1.png)
+<img src="demo/shot1.png" width="400">
 
 # Installation
 
