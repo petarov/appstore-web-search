@@ -28,7 +28,7 @@ cp_wasm:
 
 serve:
 	$(BROWSER) 'http://localhost:$(SERVE_PORT)'
-	go run cmd/server/main.go -port $(SERVE_PORT)
+	go run cmd/server/main.go -port $(SERVE_PORT) -address local.petrovs.net
 
 clean:
 	rm -f webapp/*.wasm
