@@ -195,9 +195,15 @@
     <script type="text/javascript">
         (async () => {
             const go = new Go();
-            WebAssembly.instantiateStreaming(fetch('itunes.wasm'), go.importObject).then((result) => {
-                go.run(result.instance);
-            });
+            if (WebAssembly.instantiateStreaming) {
+                WebAssembly.instantiateStreaming(fetch('itunes.wasm'), go.importObject)
+                .then(result => go.run(result.instance));
+            } else {
+                // Safari
+                fetch('itunes.wasm').then(response => response.arrayBuffer())
+                .then(bytes => WebAssembly.instantiate(bytes, go.importObject))
+                .then(result => go.run(result.instance));
+            }
 
             const APP_TEMPLATE = document.getElementById('app-item-template').innerHTML;
             const RESULTS = document.getElementById('results');
