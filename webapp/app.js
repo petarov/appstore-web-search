@@ -59,14 +59,13 @@
                     const els = document.querySelectorAll('.share-app');
                     for (const el of els) {
                         el.addEventListener('click', (event) => {
+                            const trackId = event.target.dataset.id;
                             const title = event.target.dataset.title;
                             const link = event.target.dataset.link;
-                            console.log(event.target);
-                            console.log(event.target.dataset);
                             (async () => {
                                 const data = {
                                     title: title,
-                                    text: 'Checkout ' + title,
+                                    text: '[App]: ' + title + ' [iTunes ID]: ' + trackId,
                                     url: link
                                 };
                                 await navigator.share(data);
