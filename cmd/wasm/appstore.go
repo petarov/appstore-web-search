@@ -5,6 +5,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"syscall/js"
+
+	"github.com/petarov/appstore-web-search/cmd/common"
 )
 
 func search(term string, country string, lang string, media string, entity string, client *http.Client) (json string, err error) {
@@ -51,27 +53,29 @@ func search(term string, country string, lang string, media string, entity strin
 func main() {
 	fmt.Println("*** Welcome to App Store Web Search ***")
 
-	search := func() js.Func {
-		return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
-			go func() {
-				term := args[0].String()
-				country := args[1].String()
-				media := args[2].String()
-				cb := args[3]
+	js.Global().Set("get_app_version", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		args[0].Invoke(common.APP_VERSION)
+		return nil
+	}))
 
-				json, err := search(term, country, "", media, "",
-					&http.Client{Timeout: 4 * 1000000000})
-				if err != nil {
-					cb.Invoke(err.Error(), json)
-					return
-				} else {
-					cb.Invoke(js.Null(), json)
-				}
-			}()
-			return nil
-		})
-	}
-	js.Global().Set("search", search())
+	js.Global().Set("search", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		go func() {
+			term := args[0].String()
+			country := args[1].String()
+			media := args[2].String()
+			cb := args[3]
+
+			json, err := search(term, country, "", media, "",
+				&http.Client{Timeout: 4 * 1000000000})
+			if err != nil {
+				cb.Invoke(err.Error(), json)
+				return
+			} else {
+				cb.Invoke(js.Null(), json)
+			}
+		}()
+		return nil
+	}))
 
 	select {}
 }

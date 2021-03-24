@@ -8,6 +8,7 @@
             document.querySelector('.loading').style.display = 'none';
             document.querySelector('.controls').style.display = 'block';
             go.run(result.instance);
+            get_app_version((v) => document.getElementById('version').innerHTML = 'v' + v);
         });
     } else {
         // Safari
@@ -17,6 +18,7 @@
             document.querySelector('.loading').style.display = 'none';
             document.querySelector('.controls').style.display = 'block';
             go.run(result.instance);
+            get_app_version((v) => document.getElementById('version').innerHTML = 'v' + v);
         });
     }
 
