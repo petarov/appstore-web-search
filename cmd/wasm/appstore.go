@@ -1,12 +1,24 @@
 package main
 
 import (
+	"crypto/md5"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"syscall/js"
+	"time"
 
 	"github.com/petarov/appstore-web-search/cmd/common"
+)
+
+type cacheEntry struct {
+	data    string
+	addedOn time.Time
+}
+
+var (
+	cache map[string]*cacheEntry
 )
 
 func search(term string, country string, lang string, media string, entity string, client *http.Client) (json string, err error) {
@@ -50,8 +62,18 @@ func search(term string, country string, lang string, media string, entity strin
 	return string(body), nil
 }
 
+func getKey(term string, country string, media string) string {
+	hash := md5.New()
+	io.WriteString(hash, term)
+	io.WriteString(hash, country)
+	io.WriteString(hash, media)
+	return fmt.Sprintf("%x", hash.Sum(nil))
+}
+
 func main() {
 	fmt.Println("*** Welcome to App Store Web Search ***")
+
+	cache = make(map[string]*cacheEntry)
 
 	js.Global().Set("get_app_version", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 		args[0].Invoke(common.APP_VERSION)
@@ -74,6 +96,36 @@ func main() {
 				cb.Invoke(js.Null(), json)
 			}
 		}()
+		return nil
+	}))
+
+	js.Global().Set("get_cache", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		term := args[0].String()
+		country := args[1].String()
+		media := args[2].String()
+		cb := args[3]
+
+		key := getKey(term, country, media)
+		if entry := cache[key]; entry != nil {
+			cb.Invoke(js.Null(), map[string]interface{}{"key": key, "data": entry.data})
+		} else {
+			cb.Invoke(fmt.Errorf("cache miss for: %s", key).Error(), nil)
+		}
+
+		return nil
+	}))
+
+	js.Global().Set("put_cache", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		term := args[0].String()
+		country := args[1].String()
+		media := args[2].String()
+		data := args[3].String()
+		cb := args[4]
+
+		key := getKey(term, country, media)
+		cache[key] = &cacheEntry{data, time.Now()}
+		cb.Invoke(js.Null(), key)
+
 		return nil
 	}))
 

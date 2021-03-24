@@ -32,20 +32,7 @@
         const country = document.getElementById('country').value;
         const media = document.querySelector('input[name="media"]:checked').value;
 
-        search(term, country, media, function (err, json) {
-            if (err != null) {
-                RESULTS.innerHTML = err;
-                if (json != null) {
-                    RESULTS.innerHTML += "<br>";
-                    RESULTS.innerHTML += JSON.parse(json).errorMessage;
-                }
-                return;
-            }
-
-            const sanitized = json.substring(6, json.length - 4);
-            //console.log('sanitized=', sanitized);
-            const parsed = JSON.parse(sanitized);
-            //console.log(parsed);
+        const display = (parsed) => {
             if (parsed.results && parsed.results.length > 0) {
                 RESULTS.innerHTML = '';
                 for (const app of parsed.results) {
@@ -77,6 +64,35 @@
                 }
             } else {
                 RESULTS.innerHTML = 'No results found';
+            }
+        };
+
+        get_cache(term, country, media, (err, entry) => {
+            if (err) {
+                search(term, country, media, function (err, json) {
+                    if (err != null) {
+                        RESULTS.innerHTML = err;
+                        if (json != null) {
+                            RESULTS.innerHTML += "<br>";
+                            RESULTS.innerHTML += JSON.parse(json).errorMessage;
+                        }
+                        return;
+                    }
+
+                    const sanitized = json.substring(6, json.length - 4);
+                    //console.log('sanitized=', sanitized);
+                    const parsed = JSON.parse(sanitized);
+                    //console.log(parsed);
+
+                    display(parsed);
+
+                    put_cache(term, country, media, sanitized, (err, key) => {
+                        console.log('cache put', key);
+                    });
+                });
+            } else {
+                console.log('** cache hit', entry);
+                display(JSON.parse(entry.data));
             }
         });
     };
