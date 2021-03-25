@@ -36,8 +36,9 @@
             if (parsed.results && parsed.results.length > 0) {
                 RESULTS.innerHTML = '';
                 for (const app of parsed.results) {
-                    RESULTS.innerHTML += getAppHtml(APP_TEMPLATE, app);
+                    RESULTS.insertAdjacentHTML("beforeend", getAppHtml(APP_TEMPLATE, app));
                 }
+
                 const els = document.querySelectorAll('.delete-app');
                 for (const el of els) {
                     el.addEventListener('click', 
