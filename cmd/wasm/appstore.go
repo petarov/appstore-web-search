@@ -3,7 +3,6 @@ package main
 import (
 	"crypto/md5"
 	"fmt"
-	"io"
 	"syscall/js"
 	"time"
 
@@ -83,9 +82,9 @@ func purgeCache() {
 
 func getKey(term string, country string, media string) string {
 	hash := md5.New()
-	io.WriteString(hash, term)
-	io.WriteString(hash, country)
-	io.WriteString(hash, media)
+	hash.Write([]byte(term))
+	hash.Write([]byte(country))
+	hash.Write([]byte(media))
 	return fmt.Sprintf("%x", hash.Sum(nil))
 }
 
