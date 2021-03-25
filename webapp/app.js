@@ -67,29 +67,37 @@
             }
         };
 
+        const search = (term, country, media, cb) => {
+            fetch(`https://itunes.apple.com/search?media=${media}&term=${term}
+            &country=${country}&limit=20&callback=_cb`).then(response => {
+                if (response.status / 100 === 2) {
+                    response.text().then(body => {
+                        body = body.substring(7, body.length - 4);
+                        cb(null, JSON.parse(body));
+                    });
+                } else {
+                    cb(`HTTP Err: ${response.status} ${response.statusText}`, null);
+                }
+            }).catch(err => cb(err, null));
+        };
+
         get_cache(term, country, media, (err, entry) => {
             if (err) {
-                search(term, country, media, function (err, json) {
+                search(term, country, media, (err, json) => {
                     if (err != null) {
                         RESULTS.innerHTML = err;
                         if (json != null) {
                             RESULTS.innerHTML += "<br>";
                             RESULTS.innerHTML += JSON.parse(json).errorMessage;
                         }
-                        return;
+                    } else {
+                        display(json);
+                        put_cache(term, country, media, JSON.stringify(json), (err, key) => {
+                            if (err) {
+                                console.error('cache put failed!', err);
+                            }
+                        });
                     }
-
-                    const sanitized = json.substring(6, json.length - 4);
-                    //console.log('sanitized=', sanitized);
-                    const parsed = JSON.parse(sanitized);
-
-                    display(parsed);
-
-                    put_cache(term, country, media, sanitized, (err, key) => {
-                        if (err) {
-                            console.error('cache put failed!', err);
-                        }
-                    });
                 });
             } else {
                 console.log('** cache hit', entry.key);
@@ -129,7 +137,6 @@ function getAppHtml(template, app) {
     } else {
         tpl = tpl.replace(/__GENRES__/g, app.primaryGenreName);
     }
-    
     if (app.price && app.price > 0.0) {
         tpl = tpl.replace(/__PRICE_STYLE__/g, 'is-danger');
         tpl = tpl.replace(/__PRICE__/g, app.formattedPrice);
@@ -140,7 +147,6 @@ function getAppHtml(template, app) {
         tpl = tpl.replace(/__PRICE_STYLE__/g, 'is-success');
         tpl = tpl.replace(/__PRICE__/g, app.formattedPrice || 'free');
     }
-
     if (navigator.share) {
         tpl = tpl.replace(/__SHARE_HIDDEN__/g, '');
     } else {
