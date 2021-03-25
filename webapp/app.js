@@ -82,16 +82,17 @@
                     const sanitized = json.substring(6, json.length - 4);
                     //console.log('sanitized=', sanitized);
                     const parsed = JSON.parse(sanitized);
-                    //console.log(parsed);
 
                     display(parsed);
 
                     put_cache(term, country, media, sanitized, (err, key) => {
-                        console.log('cache put', key);
+                        if (err) {
+                            console.error('cache put failed!', err);
+                        }
                     });
                 });
             } else {
-                console.log('** cache hit', entry);
+                console.log('** cache hit', entry.key);
                 display(JSON.parse(entry.data));
             }
         });
