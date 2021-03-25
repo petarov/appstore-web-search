@@ -24,6 +24,8 @@
 
     const APP_TEMPLATE = document.getElementById('app-item-template').innerHTML;
     const RESULTS = document.getElementById('results');
+    const TERM = document.getElementById('term');
+
     const doSearch = () => {
         RESULTS.innerHTML = 'Searching ...Please wait';
 
@@ -107,8 +109,12 @@
     };
     
     document.getElementById('search').onclick = () => doSearch();
-    document.getElementById('term').onkeyup = async (event) => event.key === 'Enter' && doSearch();
-    document.getElementById('clear').onclick = () => RESULTS.innerHTML = 'No results found';
+    TERM.onkeyup = async (event) => event.key === 'Enter' && doSearch();
+    document.getElementById('clear').onclick = () => {
+        RESULTS.innerHTML = 'No results found';
+        TERM.value = '';
+        TERM.focus();
+    };
 
     let country = navigator.language.substr(0,2).toLowerCase();
     country = country == 'en' ? 'US' : country;
