@@ -1,6 +1,6 @@
 # App Store Web Search
 
-A web app that can query the Apple App Store in your browser. A blend of Go's powerful WebAssembly caps and client side javascript.
+A web app that queries the Apple App Store in your browser. It uses a Go WebAssembly module to cache results for 60 seconds.
 
 <img src="demo/shot1.png" width="400">
 
