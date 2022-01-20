@@ -70,8 +70,11 @@
         };
 
         const search = (term, country, media, cb) => {
-            fetch(`https://itunes.apple.com/search?media=${media}&term=${term}
-            &country=${country}&limit=20&callback=_cb`).then(response => {
+            const url = isNaN(term) ? 
+            `https://itunes.apple.com/search?media=${media}&term=${term}&country=${country}&limit=20&callback=_cb` : 
+            `https://itunes.apple.com/lookup?id=${term}&callback=_cb`;
+
+            fetch(url).then(response => {
                 if (response.status / 100 === 2) {
                     response.text().then(body => {
                         body = body.substring(7, body.length - 4);
