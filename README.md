@@ -1,6 +1,6 @@
 # App Store Web Search
 
-A [web app](https://org.vexelon.net/asws) that queries the Apple App Store in your browser. 
+A [web app](https://vexelon.net/asws) that queries the Apple App Store in your browser. 
 
 Mostly JS + a Go WebAssembly module that caches search results for 60 seconds.
 
