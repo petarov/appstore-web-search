@@ -158,6 +158,7 @@ function getAppHtml(template, app) {
         tpl = tpl.replace(/__PRICE_STYLE__/g, 'is-success');
         tpl = tpl.replace(/__PRICE__/g, app.formattedPrice || 'free');
     }
+    tpl = tpl.replace(/__VERSION__/g, app.version);
     if (navigator.share) {
         tpl = tpl.replace(/__SHARE_HIDDEN__/g, '');
     } else {
