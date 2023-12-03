@@ -1,138 +1,139 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>The App Store Web Search App</title>
-    <meta name="description"
-        content="Search the Apple App Store or iTunes for your favourite apps, songs, books, podcasts and movies.">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
-        crossorigin="anonymous" />
-    <style media="screen">
-        html,
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-        }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The App Store Web Search App</title>
+  <meta name="description"
+    content="Search the Apple App Store or iTunes for your favourite apps, songs, books, podcasts and movies.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    crossorigin="anonymous" />
+  <style media="screen">
+    html,
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    }
 
-        .hero.is-info {
-            background: white;
-        }
+    .hero.is-info {
+      background: white;
+    }
 
-        .hero .title {
-            color: #363636 !important;
-            padding: 1.5rem 0 0 0;
-        }
+    .hero .title {
+      color: #363636 !important;
+      padding: 1.5rem 0 0 0;
+    }
 
-        h4 {
-            color: #363636 !important;
-        }
+    h4 {
+      color: #363636 !important;
+    }
 
-        .app-image>img {
-            border-radius: 20px;
-        }
+    .app-image>img {
+      border-radius: 20px;
+    }
 
-        .app-image-mobile>img {
-            border-radius: 12px;
-        }
+    .app-image-mobile>img {
+      border-radius: 12px;
+    }
 
-        .tag-text {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            max-width: 200px;
-            text-align: left;
-        }
-    </style>
+    .tag-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 200px;
+      text-align: left;
+    }
+  </style>
 </head>
+
 <body>
-    <section class="hero is-info is-fullheight">
-        <div class="hero-head">
-            <p class="title is-3 is-spaced has-text-centered">App Store Web Search</p>
+  <section class="hero is-info is-fullheight">
+    <div class="hero-head">
+      <p class="title is-3 is-spaced has-text-centered">App Store Web Search</p>
+    </div>
+
+    <div class="hero-body">
+      <div class="container">
+
+        <div class="is-offset-2 column is-8">
+          <div class="box loading">
+            <p>Loading WebAssembly ...</p>
+          </div>
+          <div class="box controls">
+            <div class="field">
+              <p class="control is-expanded">
+                <input class="input is-info" type="text" placeholder="App name or iTunes ID" id="term">
+              </p>
+            </div>
+            <div class="field is-grouped">
+              <div class="control is-expanded">
+                <label class="radio">
+                  <input type="radio" name="media" value="all"> All
+                </label>
+                <label class="radio">
+                  <input type="radio" name="media" value="software" checked> Software
+                </label>
+                <label class="radio">
+                  <input type="radio" name="media" value="audiobook"> Audio books
+                </label>
+                <label class="radio">
+                  <input type="radio" name="media" value="ebook"> E-Books
+                </label>
+                <label class="radio">
+                  <input type="radio" name="media" value="audiobook"> Audiobook
+                </label>
+                <label class="radio">
+                  <input type="radio" name="media" value="music"> Music
+                </label>
+                <label class="radio">
+                  <input type="radio" name="media" value="podcast"> Podcast
+                </label>
+                <label class="radio">
+                  <input type="radio" name="media" value="movie"> Movie
+                </label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <input class="column is-2 input is-info" type="text" placeholder="App Store Country" id="country">
+              </div>
+            </div>
+            <div class="field">
+              <p class="control">
+                <button class="button is-link" id="search">Search</button>
+                <button class="button is-link is-light" id="clear">Clear</button>
+              </p>
+            </div>
+          </div>
+
+          <div class="columns is-centered">
+            <div class="column is-half" style="display: flex; justify-content: center;">
+              <h4 id="version" style="padding-right: 4px"></h4>
+              <a href="https://github.com/petarov/appstore-web-search">
+                <div class="tags has-addons">
+                  <span class="tag is-dark">github</span>
+                  <span class="tag is-info is-light">
+                    <span class="icon is-small">
+                      <i class="fab fa-github"></i>
+                    </span>
+                  </span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div class="box" id="results">
+            <!-- list -->
+            No results found
+          </div>
         </div>
 
-        <div class="hero-body">
-            <div class="container">
+      </div><!-- container -->
+    </div><!-- hero-body -->
+  </section>
 
-                <div class="is-offset-2 column is-8">
-                    <div class="box loading">
-                        <p>Loading WebAssembly ...</p>
-                    </div>
-                    <div class="box controls">
-                        <div class="field">
-                            <p class="control is-expanded">
-                                <input class="input is-info" type="text" placeholder="App name or iTunes ID" id="term">
-                            </p>
-                        </div>
-                        <div class="field is-grouped">
-                            <div class="control is-expanded">
-                                <label class="radio">
-                                    <input type="radio" name="media" value="all"> All
-                                </label>
-                                <label class="radio">
-                                    <input type="radio" name="media" value="software" checked> Software
-                                </label>
-                                <label class="radio">
-                                    <input type="radio" name="media" value="audiobook"> Audio books
-                                </label>
-                                <label class="radio">
-                                    <input type="radio" name="media" value="ebook"> E-Books
-                                </label>
-                                <label class="radio">
-                                    <input type="radio" name="media" value="audiobook"> Audiobook
-                                </label>
-                                <label class="radio">
-                                    <input type="radio" name="media" value="music"> Music
-                                </label>
-                                <label class="radio">
-                                    <input type="radio" name="media" value="podcast"> Podcast
-                                </label>
-                                <label class="radio">
-                                    <input type="radio" name="media" value="movie"> Movie
-                                </label>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="control">
-                                <input class="column is-2 input is-info" type="text" placeholder="App Store Country"
-                                    id="country">
-                            </div>
-                        </div>
-                        <div class="field">
-                            <p class="control">
-                                <button class="button is-link" id="search">Search</button>
-                                <button class="button is-link is-light" id="clear">Clear</button>
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="columns is-centered">
-                        <div class="column is-half" style="display: flex; justify-content: center;">
-                            <h4 id="version" style="padding-right: 4px"></h4>
-                            <a href="https://github.com/petarov/appstore-web-search">
-                                <div class="tags has-addons">
-                                    <span class="tag is-dark">github</span>
-                                    <span class="tag is-info is-light">
-                                        <span class="icon is-small">
-                                            <i class="fab fa-github"></i>
-                                        </span>
-                                    </span>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="box" id="results">
-                        <!-- list -->
-                        No results found
-                    </div>
-                </div>
-
-            </div><!-- container -->
-        </div><!-- hero-body -->
-    </section>
-
-    <script id="app-item-template" type="text/x-custom-template">
+  <script id="app-item-template" type="text/x-custom-template">
         <article class="media" id="app-__TRACK_ID__">
             <figure class="media-left">
                 <a href="__LINK__" target="_blank">
@@ -214,7 +215,8 @@
             </div>
         </article>
     </script>
-    <script src="wasm_exec.js"></script>
-    <script src="app.js"></script>
+  <script src="wasm_exec.js"></script>
+  <script src="app.js"></script>
 </body>
+
 </html>
