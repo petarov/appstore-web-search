@@ -36,6 +36,10 @@
     const display = (parsed) => {
       if (parsed.results && parsed.results.length > 0) {
         RESULTS.innerHTML = '';
+
+        RESULTS.insertAdjacentHTML("beforeend", '<span class="tag is-link is-light is-medium">Found ' + parsed.results.length +
+          (parsed.results.length === 1 ? ' entry' : ' entries') + '</span><br><br>');
+
         for (const app of parsed.results) {
           RESULTS.insertAdjacentHTML("beforeend", getAppHtml(APP_TEMPLATE, app));
         }
