@@ -2,7 +2,7 @@
 
 A [web app](https://vexelon.net/asws) that queries the Apple App Store in your browser.
 
-Mostly JS + a Go WebAssembly module that caches search results for 60 seconds.
+Mostly JS + a (PoC) Go wasm module that caches search results for 60 seconds.
 
 <img src="demo/shot1.png" width="300">
 
