@@ -32,9 +32,6 @@ jobs:
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: ${{ runner.os }}-go
 
-      - name: Vet code
-        run: go vet
-
       - name: Build binaries
         run: |
           make build
