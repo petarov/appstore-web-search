@@ -1,0 +1,56 @@
+name: CI Build
+
+on:
+  push:
+    branches:
+      - "master"
+    paths:
+        - "**.go"
+        - "webapp/*.js"
+        - "webapp/*.html"
+        - "go.mod"
+        - "go.sum"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go: [ '1.17' ]
+    steps:
+      - name: Set up Go v${{ matrix.go }}
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go }}
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install deps
+        run: |
+          go version
+          go get -v -d ./...
+
+      - name: Cache modules
+        uses: actions/cache@v2
+        with:
+          path: $GOPATH/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: ${{ runner.os }}-go
+
+      - name: Vet code
+        run: go vet
+
+      - name: Build binaries
+        run: |
+          make build
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: false
+          title: "Latest Build"
+          files: |
+            LICENSE
+            webapp/*
