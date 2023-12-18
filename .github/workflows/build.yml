@@ -4,12 +4,6 @@ on:
   push:
     branches:
       - "master"
-    paths:
-        - "**.go"
-        - "webapp/*.js"
-        - "webapp/*.html"
-        - "go.mod"
-        - "go.sum"
 
 jobs:
   build:
