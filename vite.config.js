@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import obfuscator from 'vite-plugin-javascript-obfuscator';
 
 export default defineConfig({
+  base: '/asws/',
   build: {
     target: 'es2022',
     outDir: 'dist',

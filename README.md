@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-Opens a Vite dev server at `http://localhost:5173`.
+Opens a Vite dev server at `http://localhost:5173/asws/`.
 
 # Build
 
