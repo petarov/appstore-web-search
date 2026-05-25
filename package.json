@@ -1,0 +1,23 @@
+{
+  "name": "appstore-web-search",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Search the Apple App Store in your browser.",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "preview": "vite preview",
+    "lint:ec": "editorconfig-checker",
+    "lint:es": "es-check es2022 'dist/*.js' --module",
+    "prebuild": "npm run lint:ec",
+    "build": "vite build",
+    "postbuild": "npm run lint:es",
+    "test": "npm run build"
+  },
+  "devDependencies": {
+    "editorconfig-checker": "^5",
+    "es-check": "^7",
+    "vite": "^5",
+    "vite-plugin-javascript-obfuscator": "^3"
+  }
+}

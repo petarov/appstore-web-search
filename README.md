@@ -2,21 +2,38 @@
 
 A [web app](https://vexelon.net/asws) that queries the Apple App Store in your browser.
 
-Mostly JS + a (PoC) Go wasm module that caches search results for 60 seconds.
-
 <img src="demo/shot1.png" width="300">
 
-# Installation
+# Development
 
-`Go` is required. See [installation](https://golang.org/doc/install).
+```
+npm install
+npm run dev
+```
 
-Run `make` to run the server part and open the app in your browser.
+Opens a Vite dev server at `http://localhost:5173`.
 
-Run `make build` to produce the web app files in `webapp`.
+# Build
 
-Run `make all` to produce a server executable and build files.
+```
+npm run build
+```
 
-Run `make clean` to clean build artifacts.
+Runs EditorConfig check, compiles and obfuscates the app into `dist/`, then verifies the bundle is ES6-compatible. Output is a static `dist/index.html` ready to deploy to any web host.
+
+```
+npm run preview
+```
+
+Serves the built `dist/` locally to sanity-check the artifact.
+
+# Test
+
+```
+npm run test
+```
+
+Alias of `npm run build` — runs both the EditorConfig and ES6 checks.
 
 # License
 

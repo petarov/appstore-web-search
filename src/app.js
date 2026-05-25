@@ -1,26 +1,6 @@
 (async () => {
-  document.querySelector('.controls').style.display = 'none';
-
-  const go = new Go();
-  if (WebAssembly.instantiateStreaming) {
-    WebAssembly.instantiateStreaming(fetch('appstore.wasm'), go.importObject)
-      .then(result => {
-        document.querySelector('.loading').style.display = 'none';
-        document.querySelector('.controls').style.display = 'block';
-        go.run(result.instance);
-        get_app_version((v) => document.getElementById('version').innerHTML = 'v' + v);
-      });
-  } else {
-    // Safari
-    fetch('appstore.wasm').then(response => response.arrayBuffer())
-      .then(bytes => WebAssembly.instantiate(bytes, go.importObject))
-      .then(result => {
-        document.querySelector('.loading').style.display = 'none';
-        document.querySelector('.controls').style.display = 'block';
-        go.run(result.instance);
-        get_app_version((v) => document.getElementById('version').innerHTML = 'v' + v);
-      });
-  }
+  const VERSION = '2.0';
+  document.getElementById('version').innerHTML = 'v' + VERSION;
 
   const APP_TEMPLATE = document.getElementById('app-item-template').innerHTML;
   const RESULTS = document.getElementById('results');
@@ -90,27 +70,11 @@
       }).catch(err => cb(err, null));
     };
 
-    get_cache(term, country, media, (err, entry) => {
-      if (err) {
-        search(term, country, media, (err, json) => {
-          if (err != null) {
-            RESULTS.innerHTML = err;
-            if (json != null) {
-              RESULTS.innerHTML += "<br>";
-              RESULTS.innerHTML += JSON.parse(json).errorMessage;
-            }
-          } else {
-            display(json);
-            put_cache(term, country, media, JSON.stringify(json), (err, key) => {
-              if (err) {
-                console.error('cache put failed!', err);
-              }
-            });
-          }
-        });
+    search(term, country, media, (err, json) => {
+      if (err != null) {
+        RESULTS.innerHTML = err;
       } else {
-        console.log('** cache hit', entry.key);
-        display(JSON.parse(entry.data));
+        display(json);
       }
     });
   };

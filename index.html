@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>The App Store Web Search App</title>
+  <title>Apple App Store Web Search App</title>
   <meta name="description"
     content="Search the Apple App Store or iTunes for your favourite apps, songs, books, podcasts and movies.">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
@@ -15,28 +14,22 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     }
-
     .hero.is-info {
       background: white;
     }
-
     .hero .title {
       color: #363636 !important;
       padding: 1.5rem 0 0 0;
     }
-
     h4 {
       color: #363636 !important;
     }
-
     .app-image>img {
       border-radius: 20px;
     }
-
     .app-image-mobile>img {
       border-radius: 12px;
     }
-
     .tag-text {
       overflow: hidden;
       text-overflow: ellipsis;
@@ -46,7 +39,6 @@
     }
   </style>
 </head>
-
 <body>
   <section class="hero is-info is-fullheight">
     <div class="hero-head">
@@ -57,9 +49,6 @@
       <div class="container">
 
         <div class="is-offset-2 column is-8">
-          <div class="box loading">
-            <p>Loading WebAssembly ...</p>
-          </div>
           <div class="box controls">
             <div class="field">
               <p class="control is-expanded">
@@ -200,7 +189,7 @@
                                 </div>
                             </div>
                         </div>
-                     </p>
+                    </p>
                 </div>
                 <nav class="level">
                     <div class="level-left">
@@ -215,8 +204,7 @@
             </div>
         </article>
     </script>
-  <script src="wasm_exec.js"></script>
-  <script src="app.js"></script>
+  <script type="module" src="/src/app.js"></script>
 </body>
 
 </html>
