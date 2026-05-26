@@ -138,6 +138,25 @@
     </div><!-- hero-body -->
   </section>
 
+  <div class="modal" id="json-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">App JSON</p>
+        <button class="delete" id="json-modal-close" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <pre><code id="json-modal-content"></code></pre>
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-link" id="json-modal-copy">
+          <span class="icon"><i class="fas fa-copy"></i></span>
+          <span>Copy to clipboard</span>
+        </button>
+      </footer>
+    </div>
+  </div>
+
   <script id="app-item-template" type="text/x-custom-template">
         <div class="card" id="app-__TRACK_ID__">
             <div class="card-content">
@@ -205,6 +224,9 @@
                         <div class="level-left">
                             <a class="button is-link is-light is-small level-item share-app __SHARE_HIDDEN__">
                                 <span class="icon is-small"><i class="fas fa-share" data-id="__TRACK_ID__" data-title="__TITLE__" data-link="__LINK__"></i></span>
+                            </a>
+                            <a class="button is-link is-light is-small level-item json-app" data-id="__TRACK_ID__">
+                                <span>JSON</span>
                             </a>
                         </div>
                     </nav>

@@ -18,6 +18,19 @@
   const APP_TEMPLATE = document.getElementById('app-item-template').innerHTML;
   const RESULTS = document.getElementById('results');
   const TERM = document.getElementById('term');
+  const APPS = new Map();
+
+  const modalEl = document.getElementById('json-modal');
+  document.getElementById('json-modal-close').addEventListener('click', () => modalEl.classList.remove('is-active'));
+  modalEl.querySelector('.modal-background').addEventListener('click', () => modalEl.classList.remove('is-active'));
+  const copyBtn = document.getElementById('json-modal-copy');
+  const copyLabel = copyBtn.querySelector('span:last-child');
+  copyBtn.addEventListener('click', async () => {
+    await navigator.clipboard.writeText(document.getElementById('json-modal-content').textContent);
+    const original = copyLabel.textContent;
+    copyLabel.textContent = 'Copied!';
+    setTimeout(() => { copyLabel.textContent = original; }, 1200);
+  });
 
   const doSearch = () => {
     RESULTS.innerHTML = 'Searching ...Please wait';
@@ -29,12 +42,14 @@
     const display = (parsed) => {
       if (parsed.results && parsed.results.length > 0) {
         RESULTS.innerHTML = '';
+        APPS.clear();
 
         RESULTS.insertAdjacentHTML("beforeend", '<span class="tag is-link is-light is-medium">Found ' + parsed.results.length +
           (parsed.results.length === 1 ? ' entry' : ' entries') + '</span><br><br>');
 
         for (const app of parsed.results) {
           RESULTS.insertAdjacentHTML("beforeend", getAppHtml(APP_TEMPLATE, app));
+          APPS.set(String(app.trackId || app.collectionId), app);
         }
 
         const els = document.querySelectorAll('.delete-app');
@@ -43,6 +58,16 @@
             (event) => document.getElementById('app-' + event.target.dataset.id).remove()
           );
         }
+        const modal = document.getElementById('json-modal');
+        const modalContent = document.getElementById('json-modal-content');
+        for (const el of document.querySelectorAll('.json-app')) {
+          el.addEventListener('click', (event) => {
+            const id = event.currentTarget.dataset.id;
+            modalContent.textContent = JSON.stringify(APPS.get(id), null, 2);
+            modal.classList.add('is-active');
+          });
+        }
+
         if (navigator.share) {
           const els = document.querySelectorAll('.share-app');
           for (const el of els) {
