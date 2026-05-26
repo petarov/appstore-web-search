@@ -109,7 +109,6 @@ function getAppHtml(template, app) {
   var tpl = template.slice(0);
   tpl = tpl.replace(/__LINK__/g, app.trackViewUrl || app.collectionViewUrl);
   tpl = tpl.replace(/__IMG_100__/g, app.artworkUrl100);
-  tpl = tpl.replace(/__IMG_60__/g, app.artworkUrl60);
   tpl = tpl.replace(/__TRACK_ID__/g, app.trackId || app.collectionId);
   if (app.bundleId) {
     tpl = tpl.replace(/__BUNDLE_ID__/g, app.bundleId);

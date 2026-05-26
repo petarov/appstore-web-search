@@ -25,11 +25,11 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     }
-    .app-image>img {
-      border-radius: 20px;
+    .app-icon>img {
+      border-radius: 10px;
     }
-    .app-image-mobile>img {
-      border-radius: 12px;
+    .card + .card {
+      margin-top: 0.75rem;
     }
     .tag-text {
       overflow: hidden;
@@ -120,6 +120,13 @@
               </a>
             </div>
           </div>
+          <div class="columns is-centered">
+            <div class="column is-half" style="display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
+              <a href='https://ko-fi.com/S6S61XKITN' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi1.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+              <script src="https://liberapay.com/petarov/widgets/button.js"></script>
+              <noscript><a href="https://liberapay.com/petarov/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a></noscript>
+            </div>
+          </div>
 
           <div class="box" id="results">
             <!-- list -->
@@ -132,86 +139,78 @@
   </section>
 
   <script id="app-item-template" type="text/x-custom-template">
-        <article class="media" id="app-__TRACK_ID__">
-            <figure class="media-left">
-                <a href="__LINK__" target="_blank">
-                    <p class="image app-image is-96x96 is-hidden-mobile">
-                        <img src="__IMG_100__">
-                    </p>
-                    <p class="image app-image-mobile is-64x64 is-hidden-desktop">
-                        <img src="__IMG_60__">
-                    </p>
-                </a>
-            </figure>
-            <div class="media-content">
+        <div class="card" id="app-__TRACK_ID__">
+            <div class="card-content">
                 <div class="content">
-                    <p>
-                        <strong>__TITLE__</strong>
-                        <br>
-                        <div class="field is-grouped is-grouped-multiline">
-                            <div class="control">
-                                <div class="tags has-addons">
-                                    <span class="tag">type</span>
-                                    <span class="tag is-warning">__TYPE__</span>
-                                </div>
-                            </div>
-                            <div class="control">
-                                <div class="tags has-addons">
-                                    <span class="tag">ID</span>
-                                    <span class="tag is-dark">__TRACK_ID__</span>
-                                </div>
-                            </div>
-                            <div class="control __BUNDLE_ID__HIDDEN__">
-                                <div class="tags has-addons">
-                                    <span class="tag">bundle id</span>
-                                    <span class="tag is-warning is-light">__BUNDLE_ID__</span>
-                                </div>
-                            </div>
-                            <div class="control">
-                                <div class="tags has-addons">
-                                    <span class="tag">version</span>
-                                    <span class="tag is-warning is-light">__VERSION__</span>
-                                </div>
-                            </div>
-                            <div class="control">
-                                <div class="tags has-addons">
-                                    <span class="tag">by</span>
-                                    <span class="tag tag-text is-info is-light">__ARTIST__</span>
-                                </div>
-                            </div>
-                            <div class="control">
-                                <div class="tags has-addons">
-                                    <span class="tag">genre</span>
-                                    <span class="tag tag-text is-info">__GENRES__</span>
-                                </div>
-                            </div>
-                            <div class="control">
-                                <div class="tags has-addons">
-                                    <span class="tag">price</span>
-                                    <span class="tag __PRICE_STYLE__">__PRICE__</span>
-                                </div>
-                            </div>
-                            <div class="control">
-                                <div class="tags has-addons __SIZE_HIDDEN__">
-                                    <span class="tag">size</span>
-                                    <span class="tag is-info is-light">__SIZE__ mb</span>
-                                </div>
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 14px">
+                        <a href="__LINK__" target="_blank">
+                            <p class="image is-64x64 app-icon">
+                                <img src="__IMG_100__">
+                            </p>
+                        </a>
+                        <strong style="flex: 1; min-width: 0;">__TITLE__</strong>
+                        <button class="delete delete-app" data-id="__TRACK_ID__"></button>
+                    </div>
+                    <div class="field is-grouped is-grouped-multiline">
+                        <div class="control">
+                            <div class="tags has-addons">
+                                <span class="tag">type</span>
+                                <span class="tag is-warning">__TYPE__</span>
                             </div>
                         </div>
-                    </p>
-                </div>
-                <nav class="level">
-                    <div class="level-left">
-                        <a class="level-item share-app __SHARE_HIDDEN__">
-                            <span class="icon is-small"><i class="fas fa-share" data-id="__TRACK_ID__" data-title="__TITLE__" data-link="__LINK__"></i></span>
-                        </a>
+                        <div class="control">
+                            <div class="tags has-addons">
+                                <span class="tag">ID</span>
+                                <span class="tag is-dark">__TRACK_ID__</span>
+                            </div>
+                        </div>
+                        <div class="control __BUNDLE_ID__HIDDEN__">
+                            <div class="tags has-addons">
+                                <span class="tag">bundle id</span>
+                                <span class="tag is-warning is-light">__BUNDLE_ID__</span>
+                            </div>
+                        </div>
+                        <div class="control">
+                            <div class="tags has-addons">
+                                <span class="tag">version</span>
+                                <span class="tag is-warning is-light">__VERSION__</span>
+                            </div>
+                        </div>
+                        <div class="control">
+                            <div class="tags has-addons">
+                                <span class="tag">by</span>
+                                <span class="tag tag-text is-info is-light">__ARTIST__</span>
+                            </div>
+                        </div>
+                        <div class="control">
+                            <div class="tags has-addons">
+                                <span class="tag">genre</span>
+                                <span class="tag tag-text is-info">__GENRES__</span>
+                            </div>
+                        </div>
+                        <div class="control">
+                            <div class="tags has-addons">
+                                <span class="tag">price</span>
+                                <span class="tag __PRICE_STYLE__">__PRICE__</span>
+                            </div>
+                        </div>
+                        <div class="control">
+                            <div class="tags has-addons __SIZE_HIDDEN__">
+                                <span class="tag">size</span>
+                                <span class="tag is-info is-light">__SIZE__ mb</span>
+                            </div>
+                        </div>
                     </div>
-                </nav>
+                    <nav class="level">
+                        <div class="level-left">
+                            <a class="level-item share-app __SHARE_HIDDEN__">
+                                <span class="icon is-small"><i class="fas fa-share" data-id="__TRACK_ID__" data-title="__TITLE__" data-link="__LINK__"></i></span>
+                            </a>
+                        </div>
+                    </nav>
+                </div>
             </div>
-            <div class="media-right">
-                <button class="delete delete-app" data-id="__TRACK_ID__"></button>
-            </div>
-        </article>
+        </div>
     </script>
   <script type="module" src="/src/app.js"></script>
 </body>
