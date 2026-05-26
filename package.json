@@ -2,7 +2,7 @@
   "name": "appstore-web-search",
   "version": "2.0.0",
   "private": true,
-  "description": "Search the Apple App Store in your browser.",
+  "description": "Search the Apple App Store in your browser",
   "license": "MIT",
   "scripts": {
     "dev": "vite",
@@ -11,8 +11,7 @@
     "lint:es": "es-check es2022 'dist/*.js' --module",
     "prebuild": "npm run lint:ec",
     "build": "vite build",
-    "postbuild": "npm run lint:es",
-    "test": "npm run build"
+    "postbuild": "npm run lint:es"
   },
   "devDependencies": {
     "editorconfig-checker": "^5",
