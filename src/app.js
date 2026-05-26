@@ -1,4 +1,17 @@
 (async () => {
+  const html = document.documentElement;
+  const savedTheme = localStorage.getItem('theme');
+  const currentTheme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  html.setAttribute('data-theme', currentTheme);
+  document.getElementById('theme-icon').className = currentTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    document.getElementById('theme-icon').className = next === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+  });
+
   const VERSION = '2.0';
   document.getElementById('version').innerHTML = 'v' + VERSION;
 
