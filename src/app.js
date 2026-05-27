@@ -17,6 +17,7 @@
 
   const APP_TEMPLATE = document.getElementById('app-item-template').innerHTML;
   const RESULTS = document.getElementById('results');
+  const DONATIONS = document.getElementById('donations');
   const TERM = document.getElementById('term');
   const APPS = new Map();
 
@@ -34,6 +35,7 @@
 
   const doSearch = () => {
     RESULTS.innerHTML = 'Searching ...Please wait';
+    DONATIONS.classList.add('is-hidden');
 
     const term = document.getElementById('term').value;
     const country = document.getElementById('country').value;
@@ -43,6 +45,7 @@
       if (parsed.results && parsed.results.length > 0) {
         RESULTS.innerHTML = '';
         APPS.clear();
+        DONATIONS.classList.remove('is-hidden');
 
         RESULTS.insertAdjacentHTML("beforeend", '<span class="tag is-link is-light is-medium">Found ' + parsed.results.length +
           (parsed.results.length === 1 ? ' entry' : ' entries') + '</span><br><br>');
@@ -88,6 +91,7 @@
         }
       } else {
         RESULTS.innerHTML = 'No results found';
+        DONATIONS.classList.add('is-hidden');
       }
     };
 
@@ -111,6 +115,7 @@
     search(term, country, media, (err, json) => {
       if (err != null) {
         RESULTS.innerHTML = err;
+        DONATIONS.classList.add('is-hidden');
       } else {
         display(json);
       }
@@ -121,6 +126,7 @@
   TERM.onkeyup = async (event) => event.key === 'Enter' && doSearch();
   document.getElementById('clear').onclick = () => {
     RESULTS.innerHTML = 'No results found';
+    DONATIONS.classList.add('is-hidden');
     TERM.value = '';
     TERM.focus();
   };
